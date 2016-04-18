@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<application-j2ee-engine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<reference reference-type="hard">
+		<reference-target provider-name="sap.com"
+			target-type="service">
+			scheduler~runtime
+    </reference-target>
+	</reference>
+	<reference reference-type="hard">
+		<reference-target provider-name="sap.com"
+			target-type="service">scheduler~runtime</reference-target>
+	</reference>
+	<provider-name>scn.sap.com</provider-name>
+	<modules-additional>
+		<module>
+			<entry-name>demo.job.alert.push.ejb.jar</entry-name>
+			<container-type>scheduler~container</container-type>
+		</module>
+	</modules-additional>
+</application-j2ee-engine>

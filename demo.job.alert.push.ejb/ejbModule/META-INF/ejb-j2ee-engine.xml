@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ejb-j2ee-engine xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="ejb-j2ee-engine_3_0.xsd">
+	<enterprise-beans>
+		<enterprise-bean>
+			<ejb-name>AlertConsumerPushNotificationJob</ejb-name>
+			<jndi-name> AlertConsumerPushNotificationJob</jndi-name>
+			<bean-props>
+				<property>
+					<property-name>destination-name</property-name>
+					<property-value>JobQueue</property-value>
+				</property>
+				<property>
+					<property-name>connection-factory-name</property-name>
+					<property-value>JobQueueFactory</property-value>
+				</property>
+			</bean-props>
+		</enterprise-bean>
+	</enterprise-beans>
+</ejb-j2ee-engine>

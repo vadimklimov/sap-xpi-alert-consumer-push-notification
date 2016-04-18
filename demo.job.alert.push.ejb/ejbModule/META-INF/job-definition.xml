@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<job-definitions>
+	<job-definition name="AlertConsumerPushNotificationJob"
+		description="Consume Advanced Adapter Engine alerts and send push notifications"
+		retention-period="14">
+		<job-definition-parameter name="AlertConsumerMethod"
+			description="Alert consumer method: SOAP or JMS" data-type="String"
+			direction="IN" />
+		<job-definition-parameter name="AlertConsumer"
+			description="Alert consumer service: consumer ID" data-type="String"
+			direction="IN" data-default="PUSH_NOTIFICATION" />
+		<job-definition-parameter name="AlertLanguage"
+			description="Alert consumer service: language" data-type="String"
+			direction="IN" data-default="EN" />
+		<job-definition-parameter name="AlertMaximumNumber"
+			description="Alert consumer service: maximum alerts" data-type="Integer"
+			direction="IN" data-default="100" />
+		<job-definition-parameter name="PushNotificationService"
+			description="Push notification service: URL" data-type="String"
+			direction="IN" data-default="https://api.pushover.net/1/messages.json" />
+		<job-definition-parameter name="PushNotificationUser"
+			description="Push notification service: user" data-type="String"
+			direction="IN" />
+		<job-definition-parameter name="PushNotificationToken"
+			description="Push notification service: token" data-type="String"
+			direction="IN" />
+		<job-definition-parameter name="PushNotificationDevice"
+			description="Push notification service: device" data-type="String"
+			direction="IN" nullable="Y" />
+		<job-definition-parameter name="AAEUser"
+			description="AAE: user" data-type="String" direction="IN" nullable="Y" />
+		<job-definition-parameter name="AAEPassword"
+			description="AAE: password" data-type="String" direction="IN"
+			nullable="Y" />
+	</job-definition>
+</job-definitions>

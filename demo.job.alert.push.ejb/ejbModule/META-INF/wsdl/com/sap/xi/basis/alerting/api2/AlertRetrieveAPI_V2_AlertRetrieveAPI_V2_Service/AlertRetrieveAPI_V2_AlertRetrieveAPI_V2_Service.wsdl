@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:p1="http://sap.com/xi/BASIS/alerting/api2" xmlns:p2="http://sap.com/xi/BASIS/Global" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" name="AlertRetrieveAPI_V2" targetNamespace="http://sap.com/xi/BASIS/alerting/api2">
+	<wsdl:documentation>This is version 2 of service definition AlertRetrieveAPI in namespace http://sap.com/xi/BASIS/alerting</wsdl:documentation>
+	
+	
+	<wsdl:types>
+		<xsd:schema xmlns="http://sap.com/xi/BASIS/Global" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://sap.com/xi/BASIS/Global">
+			<xsd:element name="StandardMessageFault">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="standard" type="ExchangeFaultData"/>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:simpleType name="LanguageCode">
+				<xsd:restriction base="xsd:language">
+					<xsd:length value="2"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:complexType name="ExchangeFaultData">
+				<xsd:sequence>
+					<xsd:element name="faultText" type="xsd:string"/>
+					<xsd:element minOccurs="0" name="faultUrl" type="xsd:string"/>
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="faultDetail" type="ExchangeLogData"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="ExchangeLogData">
+				<xsd:sequence>
+					<xsd:element minOccurs="0" name="severity" type="xsd:string"/>
+					<xsd:element name="text" type="xsd:string"/>
+					<xsd:element minOccurs="0" name="url" type="xsd:string"/>
+					<xsd:element minOccurs="0" name="id" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+		<xsd:schema xmlns="http://sap.com/xi/BASIS/alerting/api2" xmlns:p5="http://sap.com/xi/BASIS" xmlns:p6="http://sap.com/xi/BASIS/Global" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://sap.com/xi/BASIS/alerting/api2">
+			<xsd:import namespace="http://sap.com/xi/BASIS"/>
+			<xsd:import namespace="http://sap.com/xi/BASIS/Global"/>
+			<xsd:element name="RetrieveSingleAlertsRequest_V2" type="RetrieveSingleAlertsIn_V2"/>
+			<xsd:element name="RetrieveSingleAlertsResponse_V2" type="RetrieveSingleAlertsOut_V2"/>
+			<xsd:complexType name="OptionalDetailsIn">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="EN">Array of optional details</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="DetailsNames" type="OptionalDetailsRowIn"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="OptionalDetailsRowIn">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="EN">Single detail name</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="ParameterName" type="xsd:NCName"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="OptionalDetailsRowOut">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="EN">A single [name, value] pair representing requested optional detail</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="ParameterName" type="xsd:NCName"/>
+					<xsd:element name="ParameterValue" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="RetrieveSingleAlertsIn_V2">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="EN">This datatype specifies the consumer, for which the alerts shall be retrieved, and the maximum number of alerts to be retrieved</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="ConsumerID" type="p5:AlertConsumerName"/>
+					<xsd:element name="MaxAlerts" type="xsd:integer"/>
+					<xsd:element minOccurs="0" name="Language" type="p6:LanguageCode"/>
+					<xsd:element minOccurs="0" name="OptionalDetails" type="OptionalDetailsIn"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="OptionalDetailsOut">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="EN">Array of optional details with values</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="DetailsValues" type="OptionalDetailsRowOut"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="RetrieveSingleAlertsOut_V2">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="EN">This is the return data type for the alerts retrieval</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="Alert" type="SingleAlertsInformation_V2"/>
+					<xsd:element name="StatusDetails" type="xsd:string"/>
+				</xsd:sequence>
+			</xsd:complexType>
+			<xsd:complexType name="SingleAlertsInformation_V2">
+				<xsd:annotation>
+					<xsd:documentation xml:lang="EN">This represents a single alert for component ComponentID, rule AlertRuleID and integration flow ID and has content AlertPayload and optional details</xsd:documentation>
+				</xsd:annotation>
+				<xsd:sequence>
+					<xsd:element name="AlertPayload" type="xsd:string"/>
+					<xsd:element name="AlertRuleID" type="p5:AlertRuleName"/>
+					<xsd:element name="ComponentID">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:maxLength value="120"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="IntegrationFlowID">
+						<xsd:simpleType>
+							<xsd:restriction base="xsd:string">
+								<xsd:maxLength value="120"/>
+							</xsd:restriction>
+						</xsd:simpleType>
+					</xsd:element>
+					<xsd:element name="AlertsDeleted" type="xsd:integer"/>
+					<xsd:element name="ErrorLabelID" type="xsd:integer"/>
+					<xsd:element maxOccurs="unbounded" minOccurs="0" name="DetailsValues" type="OptionalDetailsOut"/>
+				</xsd:sequence>
+			</xsd:complexType>
+		</xsd:schema>
+		<xsd:schema xmlns="http://sap.com/xi/BASIS" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="http://sap.com/xi/BASIS">
+			<xsd:simpleType name="AlertConsumerName">
+				<xsd:restriction base="xsd:token">
+					<xsd:maxLength value="64"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+			<xsd:simpleType name="AlertRuleName">
+				<xsd:restriction base="xsd:string">
+					<xsd:maxLength value="120"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:schema>
+	</wsdl:types>
+	<wsdl:message name="RetrieveSingleAlertsRequest_V2">
+		<wsdl:documentation><![CDATA[This is the request message for retrieving single alerts from the specified consumer queue. Provides options for language of texts and additional details.]]></wsdl:documentation>
+		<wsdl:part element="p1:RetrieveSingleAlertsRequest_V2" name="RetrieveSingleAlertsRequest_V2"/>
+	</wsdl:message>
+	<wsdl:message name="RetrieveSingleAlertsResponse_V2">
+		<wsdl:documentation>This is the response message for retrieving single alerts from the specified consumer queue</wsdl:documentation>
+		<wsdl:part element="p1:RetrieveSingleAlertsResponse_V2" name="RetrieveSingleAlertsResponse_V2"/>
+	</wsdl:message>
+	<wsdl:message name="p2.StandardMessageFault">
+		<wsdl:documentation>Standard Message Fault</wsdl:documentation>
+		<wsdl:part element="p2:StandardMessageFault" name="StandardMessageFault"/>
+	</wsdl:message>
+	<wsdl:portType name="AlertRetrieveAPI_V2">
+		<wsdl:documentation>This is version 2 of service definition AlertRetrieveAPI in namespace http://sap.com/xi/BASIS/alerting</wsdl:documentation>
+		<wsdl:operation name="RetrieveSingleAlerts">
+			<wsdl:documentation>Retrieves Single Alerts from local consumer queue</wsdl:documentation>
+			
+			<wsdl:input message="p1:RetrieveSingleAlertsRequest_V2"/>
+			<wsdl:output message="p1:RetrieveSingleAlertsResponse_V2"/>
+			<wsdl:fault message="p1:p2.StandardMessageFault" name="p2.StandardMessageFault"/>
+		</wsdl:operation>
+	</wsdl:portType>
+	<wsdl:binding name="AlertRetrieveAPI_V2Binding" type="p1:AlertRetrieveAPI_V2">
+		<soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+		<wsdl:operation name="RetrieveSingleAlerts">
+			<soap:operation soapAction="http://sap.com/xi/WebService/soap1.1"/>
+			<wsdl:input>
+				<soap:body use="literal"/>
+			</wsdl:input>
+			<wsdl:output>
+				<soap:body use="literal"/>
+			</wsdl:output>
+			<wsdl:fault name="p2.StandardMessageFault">
+				<soap:fault name="p2.StandardMessageFault" use="literal"/>
+			</wsdl:fault>
+		</wsdl:operation>
+	</wsdl:binding>
+	<wsdl:service name="AlertRetrieveAPI_V2_Service">
+		<wsdl:port xmlns:bprf="http://sap.com/xi/BASIS/alerting/api2" binding="bprf:AlertRetrieveAPI_V2Binding" name="AlertRetrieveAPI_V2_Port">
+			<soap:address location="http://sap-po-poc:50000/AlertRetrieveAPI_V2_Service/AlertRetrieveAPIV2ImplBean"/>
+		</wsdl:port>
+		<wsdl:port xmlns:bprf="http://sap.com/xi/BASIS/alerting/api2" binding="bprf:AlertRetrieveAPI_V2Binding" name="AlertRetrieveAPI_V2_PortHTTPS">
+			<soap:address location="/"/>
+		</wsdl:port>
+	</wsdl:service>
+</wsdl:definitions>
