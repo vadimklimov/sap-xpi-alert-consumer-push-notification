@@ -1,3 +1,6 @@
+> [!IMPORTANT]
+> This repository has been archived and is no longer maintained.
+
 # PO_AlertConsumerPushNotifications
 SAP PO: Alert consumer job for push notifications
 
